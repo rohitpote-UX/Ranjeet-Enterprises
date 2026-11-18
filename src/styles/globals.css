@@ -40,6 +40,48 @@ html[data-lang="hi"] body,
 .font-mr,
 .font-hi {
   font-family: var(--font-mr), var(--font-sans), sans-serif;
+  letter-spacing: normal;
+}
+
+/* Ensure Devanagari headings have adequate vertical line height and letter spacing so matras never collide */
+html[lang="mr"] h1,
+html[data-lang="mr"] h1,
+html[lang="hi"] h1,
+html[data-lang="hi"] h1,
+html[lang="mr"] h2,
+html[data-lang="mr"] h2,
+html[lang="hi"] h2,
+html[data-lang="hi"] h2,
+html[lang="mr"] h3,
+html[data-lang="mr"] h3,
+html[lang="hi"] h3,
+html[data-lang="hi"] h3 {
+  line-height: 1.25 !important;
+  letter-spacing: 0 !important;
+}
+
+html[lang="mr"] .text-stellar-hero,
+html[data-lang="mr"] .text-stellar-hero,
+html[lang="hi"] .text-stellar-hero,
+html[data-lang="hi"] .text-stellar-hero {
+  line-height: 1.25;
+  letter-spacing: normal;
+}
+
+html[lang="mr"] .text-stellar-h2,
+html[data-lang="mr"] .text-stellar-h2,
+html[lang="hi"] .text-stellar-h2,
+html[data-lang="hi"] .text-stellar-h2 {
+  line-height: 1.24;
+  letter-spacing: normal;
+}
+
+html[lang="mr"] .text-stellar-h3,
+html[data-lang="mr"] .text-stellar-h3,
+html[lang="hi"] .text-stellar-h3,
+html[data-lang="hi"] .text-stellar-h3 {
+  line-height: 1.28;
+  letter-spacing: normal;
 }
 
 ::selection {

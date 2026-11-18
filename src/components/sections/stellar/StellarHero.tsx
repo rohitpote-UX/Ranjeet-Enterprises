@@ -15,7 +15,8 @@ export default function StellarHero() {
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const sublineRef = useRef<HTMLParagraphElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
+  const isDevanagari = lang === "mr" || lang === "hi";
 
   const videoCityRef = useRef<HTMLVideoElement>(null);
   const videoPourRef = useRef<HTMLVideoElement>(null);
@@ -166,19 +167,24 @@ export default function StellarHero() {
           <div className="max-w-2xl">
             <h1
               ref={headlineRef}
-              className="text-[clamp(44px,6.4vw,94px)] font-sans font-medium tracking-[-0.035em] leading-[0.98] text-white text-balance"
+              className={cn(
+                "font-sans font-medium text-white text-balance",
+                isDevanagari
+                  ? "text-[clamp(36px,5.6vw,82px)] leading-[1.28] tracking-normal"
+                  : "text-[clamp(44px,6.4vw,94px)] leading-[1.02] tracking-[-0.03em]"
+              )}
             >
-              <span className="block overflow-hidden py-0.5">
+              <span className={cn("block overflow-hidden", isDevanagari ? "py-1.5 sm:py-2.5" : "py-0.5 sm:py-1")}>
                 <span className="hero-line block will-change-transform">
                   {t.hero.h1Line1}
                 </span>
               </span>
-              <span className="block overflow-hidden py-0.5">
+              <span className={cn("block overflow-hidden", isDevanagari ? "py-1.5 sm:py-2.5" : "py-0.5 sm:py-1")}>
                 <span className="hero-line block will-change-transform">
                   {t.hero.h1Line2}
                 </span>
               </span>
-              <span className="block overflow-hidden py-0.5">
+              <span className={cn("block overflow-hidden", isDevanagari ? "py-1.5 sm:py-2.5" : "py-0.5 sm:py-1")}>
                 <span className="hero-line block will-change-transform">
                   {t.hero.h1Line3Normal}{" "}
                   <span className="font-accent-italic font-normal italic text-white/95 inline-block">
@@ -191,7 +197,10 @@ export default function StellarHero() {
             {/* Subline directly below H1 */}
             <p
               ref={sublineRef}
-              className="mt-6 sm:mt-7 text-white/85 text-[15px] sm:text-[16px] max-w-lg leading-relaxed font-normal"
+              className={cn(
+                "text-white/85 text-[15px] sm:text-[16px] max-w-lg font-normal",
+                isDevanagari ? "mt-8 sm:mt-9 leading-[1.75]" : "mt-6 sm:mt-7 leading-relaxed"
+              )}
             >
               {t.hero.subline}
             </p>
