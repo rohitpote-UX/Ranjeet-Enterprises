@@ -45,6 +45,9 @@ export interface TranslationSchema {
   };
   whatWeDo: {
     label: string;
+    headingMain: string;
+    headingItalic: string;
+    subline: string;
     p1: string;
     accent1: string;
     p2: string;
@@ -184,6 +187,9 @@ export const translations: Record<"en" | "mr" | "hi", TranslationSchema> = {
     },
     whatWeDo: {
       label: "What We Do",
+      headingMain: "From purified sources to sealed 20L jars,",
+      headingItalic: "we deliver the water where families live, work & thrive.",
+      subline: "Operating directly from DP Road in Aundh, Ranjeet Enterprises delivers clean, sealed 20-litre water jars with reliable daily timing and courteous customer service across Aundh, Baner, and Khadki.",
       p1: "From",
       accent1: "trusted",
       p2: "source to",
@@ -342,6 +348,9 @@ export const translations: Record<"en" | "mr" | "hi", TranslationSchema> = {
     },
     whatWeDo: {
       label: "आमचे कार्य",
+      headingMain: "शुद्ध स्रोतापासून ते थेट सीलबंद २०L जारपर्यंत,",
+      headingItalic: "आम्ही पाणी पोहोचवतो जिथे कुटुंबे राहतात, काम करतात आणि आनंदाने जगतात.",
+      subline: "औंध येथील डीपी रोडवरून कार्यरत, रणजीत एंटरप्रायझेस औंध, बाणेर आणि खडकी परिसरातील घरे आणि कार्यालयांना स्वच्छ, सीलबंद २० लिटर पाण्याचे जार तत्पर आणि विश्वासार्ह सेवेसह पुरवते.",
       p1: "विश्वसनीय",
       accent1: "स्रोतापासून",
       p2: "ते थेट",
@@ -500,6 +509,9 @@ export const translations: Record<"en" | "mr" | "hi", TranslationSchema> = {
     },
     whatWeDo: {
       label: "हमारा कार्य",
+      headingMain: "शुद्ध स्रोत से लेकर सुरक्षित सीलबंद २०L जार तक,",
+      headingItalic: "हम जल पहुंचाते हैं जहां परिवार रहते हैं, कार्य करते हैं और खुशहाली से जीते हैं।",
+      subline: "औंध के डीपी रोड से संचालित, रणजीत एंटरप्राइजेज औंध, बानेर और खड़की में घरों एवं कार्यस्थलों को स्वच्छ, सीलबंद २० लीटर पानी के जार तत्पर और भरोसेमंद सेवा के साथ उपलब्ध कराता है।",
       p1: "विश्वसनीय",
       accent1: "स्रोत से",
       p2: "लेकर",

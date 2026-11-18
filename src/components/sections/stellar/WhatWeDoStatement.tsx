@@ -2,12 +2,16 @@
 
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import PillButton from "@/components/ui/PillButton";
-import { RanjeetSeal, WaterRipplesBackground, BotanicalFlourish } from "@/components/ui/BrandVectors";
-import { ShieldCheck, Truck, Sparkles } from "lucide-react";
+import { RanjeetSeal, WaterRipplesBackground } from "@/components/ui/BrandVectors";
+import { ShieldCheck, Truck, Sparkles, CheckCircle2, MessageSquare, ArrowUpRight } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import { CONTACT_CONFIG } from "@/config/contact";
+import { BRAND_CONFIG } from "@/config/brand";
+import { cn } from "@/lib/utils";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -15,74 +19,65 @@ if (typeof window !== "undefined") {
 
 export default function WhatWeDoStatement() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLHeadingElement>(null);
-  const img1Ref = useRef<HTMLSpanElement>(null);
-  const img2Ref = useRef<HTMLSpanElement>(null);
-  const img3Ref = useRef<HTMLSpanElement>(null);
-  const subgridRef = useRef<HTMLDivElement>(null);
-  const { t } = useLanguage();
+  const headerRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
+  const footerCardRef = useRef<HTMLDivElement>(null);
+  const { lang, t } = useLanguage();
+  const isDevanagari = lang === "mr" || lang === "hi";
 
   useEffect(() => {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
     if (prefersReduced) return;
 
     const ctx = gsap.context(() => {
-      if (!containerRef.current || !textRef.current) return;
-
-      const words = textRef.current.querySelectorAll(".scrub-word");
-      const inlineImages = [img1Ref.current, img2Ref.current, img3Ref.current].filter(Boolean);
-
-      // Initial state
-      gsap.set(words, { opacity: 0.25 });
-      gsap.set(inlineImages, { scale: 0.6, opacity: 0.5 });
-
-      // Progressive scrub timeline
-      const scrubTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: textRef.current,
-          start: "top 75%",
-          end: "bottom 35%",
-          scrub: 0.7,
-        },
-      });
-
-      // Words progressively illuminate to 100%
-      scrubTl.to(
-        words,
-        {
-          opacity: 1,
-          stagger: 0.04,
-          ease: "none",
-        },
-        0
-      );
-
-      // Inline image capsules smoothly scale up
-      if (img1Ref.current) {
-        scrubTl.to(img1Ref.current, { scale: 1, opacity: 1, duration: 0.2 }, 0.1);
-      }
-      if (img2Ref.current) {
-        scrubTl.to(img2Ref.current, { scale: 1, opacity: 1, duration: 0.2 }, 0.28);
-      }
-      if (img3Ref.current) {
-        scrubTl.to(img3Ref.current, { scale: 1, opacity: 1, duration: 0.2 }, 0.52);
-      }
-
-      // Supporting grid reveals
-      if (subgridRef.current) {
+      if (headerRef.current) {
         gsap.fromTo(
-          subgridRef.current,
-          { opacity: 0, y: 35 },
+          headerRef.current,
+          { opacity: 0, y: 30 },
           {
             opacity: 1,
             y: 0,
             duration: 1,
             ease: "power3.out",
             scrollTrigger: {
-              trigger: subgridRef.current,
+              trigger: headerRef.current,
+              start: "top 80%",
+            },
+          }
+        );
+      }
+
+      if (cardsRef.current) {
+        const cards = cardsRef.current.children;
+        gsap.fromTo(
+          cards,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.9,
+            stagger: 0.15,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: cardsRef.current,
+              start: "top 78%",
+            },
+          }
+        );
+      }
+
+      if (footerCardRef.current) {
+        gsap.fromTo(
+          footerCardRef.current,
+          { opacity: 0, y: 25 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: footerCardRef.current,
               start: "top 85%",
-              once: true,
             },
           }
         );
@@ -92,193 +87,196 @@ export default function WhatWeDoStatement() {
     return () => ctx.revert();
   }, []);
 
+  const features = [
+    {
+      id: "purity",
+      stage: "STAGE 01 // PURITY",
+      badge: isDevanagari ? "स्वच्छ जार मानक" : "HYGIENIC STANDARD",
+      title: t.whatWeDo.card1Title,
+      description: t.whatWeDo.card1Desc,
+      image: "/images/water-ripple-crystal.jpg",
+      icon: ShieldCheck,
+      points: isDevanagari
+        ? ["काटेकोर जार तपासणी व स्वच्छता", "सुरक्षित सीलबंद टॅम्पर-प्रूफ कॅप", "२० लिटर प्रमाणित फूड-ग्रेड जार"]
+        : ["Rigorous container hygiene check", "Hermetic tamper-evident cap seal", "Certified food-grade 20L jars"],
+      footerTag: "Inspected Containers • Sealed Caps",
+    },
+    {
+      id: "logistics",
+      stage: "STAGE 02 // LOGISTICS",
+      badge: isDevanagari ? "पुणे सेवा मार्ग" : "PUNE SERVICE ROUTE",
+      title: t.whatWeDo.card2Title,
+      description: t.whatWeDo.card2Desc,
+      image: "/images/delivery-van-route.jpg",
+      icon: Truck,
+      points: isDevanagari
+        ? ["औंध, बाणेर व खडकीत नियमित सेवा", "सकाळ व दुपारच्या वेळेत डिलिव्हरी", "घर व कार्यालयासाठी थेट पुरवठा"]
+        : ["Daily routes in Aundh, Baner & Khadki", "Scheduled morning & afternoon slots", "Direct doorstep placement for homes & offices"],
+      footerTag: "Aundh • Baner • Khadki",
+    },
+    {
+      id: "service",
+      stage: "STAGE 03 // RELIABILITY",
+      badge: isDevanagari ? "विश्वासार्ह ग्राहक सेवा" : "CUSTOMER ASSURANCE",
+      title: t.whatWeDo.card3Title,
+      description: t.whatWeDo.card3Desc,
+      image: "/images/card-corporate.jpg",
+      icon: Sparkles,
+      points: isDevanagari
+        ? ["१२ प्रत्यक्ष गुगल ग्राहक पुनरावलोकने", "४.६★ उच्च ग्राहक समाधान रेटिंग", "थेट व्हॉट्सॲप डिस्पॅच समन्वय"]
+        : ["12 verified Google Business reviews", "4.6★ customer satisfaction rating", "Direct WhatsApp dispatch coordinator"],
+      footerTag: "12 Google Reviews • 4.6★ Rating",
+    },
+  ];
+
   return (
     <section
+      id="what-we-do"
       ref={containerRef}
-      className="relative w-full bg-canvas text-navy py-28 sm:py-36 lg:py-48 overflow-hidden transition-colors"
+      className="relative w-full bg-canvas text-navy py-24 sm:py-32 lg:py-40 overflow-hidden border-b border-navy/5"
     >
       {/* Background Concentric Vector Ripples */}
-      <WaterRipplesBackground />
+      <div className="absolute inset-0 pointer-events-none opacity-40">
+        <WaterRipplesBackground />
+      </div>
 
       <div className="container-custom relative z-10">
-        {/* Top Header Badge & Flourish */}
-        <div className="flex flex-col items-center text-center mb-12 sm:mb-16">
-          <div className="inline-flex items-center gap-2 mb-4 px-4 py-1.5 rounded-full bg-white shadow-sm border border-navy/10 text-navy text-xs font-sans uppercase tracking-[0.2em] font-semibold">
-            <span className="w-1.5 h-1.5 rounded-full bg-aqua" />
-            <span>{t.whatWeDo.label}</span>
+        {/* Top Header Badge & Master Statement */}
+        <div ref={headerRef} className="max-w-4xl mx-auto text-center mb-16 sm:mb-20">
+          <div className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 rounded-full bg-white shadow-sm border border-navy/10 text-navy text-xs font-sans uppercase tracking-[0.2em] font-semibold">
+            <span className="w-2 h-2 rounded-full bg-aqua animate-pulse" />
+            <span>{t.whatWeDo.label} // {isDevanagari ? "पुणे वितरण केंद्र" : "PUNE HUB"}</span>
           </div>
-          <BotanicalFlourish className="opacity-75" />
-        </div>
 
-        {/* Master Large Editorial Statement (Balanced & Centered) */}
-        <div className="max-w-5xl mx-auto text-center">
           <h2
-            ref={textRef}
-            className="text-[clamp(32px,4.5vw,68px)] font-sans font-medium text-navy leading-[1.32] sm:leading-[1.24] tracking-[-0.03em] text-balance selection:bg-aqua/20"
+            className={cn(
+              "font-sans font-medium text-navy text-balance tracking-tight",
+              isDevanagari
+                ? "text-[clamp(28px,4vw,52px)] leading-[1.3] tracking-normal"
+                : "text-[clamp(34px,4.8vw,66px)] leading-[1.12] tracking-[-0.03em]"
+            )}
           >
-            <span className="scrub-word inline-block mr-2 sm:mr-3.5">From</span>
-            <span className="scrub-word inline-block mr-2 sm:mr-3.5 font-accent-italic font-normal italic text-ocean">
-              purified
-            </span>
-
-            {/* Inline Capsule 1: Pure Water Source */}
-            <span
-              ref={img1Ref}
-              className="inline-flex relative overflow-hidden align-middle rounded-full mx-2 sm:mx-3 shadow-md border-2 border-white ring-1 ring-navy/15 w-[2.4em] sm:w-[2.8em] h-[1.36em] sm:h-[1.46em] transition-transform duration-300 hover:scale-105"
-            >
-              <Image
-                src="/images/water-ripple-crystal.jpg"
-                alt="Purified Water Source"
-                fill
-                sizes="140px"
-                className="object-cover"
-              />
-            </span>
-
-            <span className="scrub-word inline-block mr-2 sm:mr-3.5">source</span>
-            <span className="scrub-word inline-block mr-2 sm:mr-3.5">to</span>
-            <span className="scrub-word inline-block mr-2 sm:mr-3.5 font-accent-italic font-normal italic text-ocean">
-              sealed
-            </span>
-
-            {/* Inline Capsule 2: Sealed 20L Jar */}
-            <span
-              ref={img2Ref}
-              className="inline-flex relative overflow-hidden align-middle rounded-full mx-2 sm:mx-3 shadow-md border-2 border-white ring-1 ring-navy/15 w-[2.4em] sm:w-[2.8em] h-[1.36em] sm:h-[1.46em] transition-transform duration-300 hover:scale-105"
-            >
-              <Image
-                src="/images/hero-jar-20l.jpg"
-                alt="Sealed Water Jar"
-                fill
-                sizes="140px"
-                className="object-cover"
-              />
-            </span>
-
-            <span className="scrub-word inline-block mr-2 sm:mr-3.5">jars,</span>
-            <span className="scrub-word inline-block mr-2 sm:mr-3.5">we</span>
-            <span className="scrub-word inline-block mr-2 sm:mr-3.5">deliver</span>
-            <span className="scrub-word inline-block mr-2 sm:mr-3.5">the</span>
-            <span className="scrub-word inline-block mr-2 sm:mr-3.5">water</span>
-            <span className="scrub-word inline-block mr-2 sm:mr-3.5">where</span>
-            <span className="scrub-word inline-block mr-2 sm:mr-3.5">families</span>
-            <span className="scrub-word inline-block mr-2 sm:mr-3.5">live,</span>
-            <span className="scrub-word inline-block mr-2 sm:mr-3.5">work</span>
-
-            {/* Inline Capsule 3: Thriving Communities */}
-            <span
-              ref={img3Ref}
-              className="inline-flex relative overflow-hidden align-middle rounded-full mx-2 sm:mx-3 shadow-md border-2 border-white ring-1 ring-navy/15 w-[2.4em] sm:w-[2.8em] h-[1.36em] sm:h-[1.46em] transition-transform duration-300 hover:scale-105"
-            >
-              <Image
-                src="/images/hero-delivery-supplier.jpg"
-                alt="Thriving Families & Workplaces"
-                fill
-                sizes="140px"
-                className="object-cover"
-              />
-            </span>
-
-            <span className="scrub-word inline-block mr-2 sm:mr-3.5 font-accent-italic font-normal italic text-ocean">
-              &amp;
-            </span>
-            <span className="scrub-word inline-block font-accent-italic font-normal italic text-ocean">
-              thrive.
+            <span>{t.whatWeDo.headingMain}</span>{" "}
+            <span className="font-accent-italic font-normal italic text-ocean block mt-1.5 sm:mt-2.5">
+              {t.whatWeDo.headingItalic}
             </span>
           </h2>
-        </div>
 
-        {/* Supporting 3-Column Editorial Grid with Custom Brand Vectors & Details */}
-        <div
-          ref={subgridRef}
-          className="mt-20 sm:mt-28 pt-14 sm:pt-18 border-t border-navy/10 grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-14"
-        >
-          {/* Col 1 */}
-          <div className="p-8 rounded-2xl bg-white shadow-sm border border-navy/5 flex flex-col justify-between">
-            <div>
-              <div className="w-12 h-12 rounded-xl bg-sky-subtle flex items-center justify-center text-ocean mb-6">
-                <ShieldCheck className="w-6 h-6" />
-              </div>
-              <span className="text-xs uppercase font-sans tracking-[0.18em] text-navy/50 font-semibold block mb-2">
-                WATER JAR STANDARD
-              </span>
-              <h3 className="text-xl font-sans font-medium text-navy tracking-tight">
-                {t.whatWeDo.card1Title}
-              </h3>
-              <p className="mt-3 text-sm text-navy/70 leading-relaxed">
-                {t.whatWeDo.card1Desc}
-              </p>
-            </div>
-            <div className="mt-6 pt-4 border-t border-navy/5 text-xs text-aqua font-semibold">
-              Inspected Containers • Secure Cap Seal
-            </div>
-          </div>
-
-          {/* Col 2 */}
-          <div className="p-8 rounded-2xl bg-white shadow-sm border border-navy/5 flex flex-col justify-between">
-            <div>
-              <div className="w-12 h-12 rounded-xl bg-sky-subtle flex items-center justify-center text-ocean mb-6">
-                <Truck className="w-6 h-6" />
-              </div>
-              <span className="text-xs uppercase font-sans tracking-[0.18em] text-navy/50 font-semibold block mb-2">
-                PUNE SERVICE ROUTE
-              </span>
-              <h3 className="text-xl font-sans font-medium text-navy tracking-tight">
-                {t.whatWeDo.card2Title}
-              </h3>
-              <p className="mt-3 text-sm text-navy/70 leading-relaxed">
-                {t.whatWeDo.card2Desc}
-              </p>
-            </div>
-            <div className="mt-6 pt-4 border-t border-navy/5 text-xs text-aqua font-semibold">
-              Aundh • Baner • Khadki
-            </div>
-          </div>
-
-          {/* Col 3 */}
-          <div className="p-8 rounded-2xl bg-white shadow-sm border border-navy/5 flex flex-col justify-between">
-            <div>
-              <div className="w-12 h-12 rounded-xl bg-sky-subtle flex items-center justify-center text-ocean mb-6">
-                <Sparkles className="w-6 h-6" />
-              </div>
-              <span className="text-xs uppercase font-sans tracking-[0.18em] text-navy/50 font-semibold block mb-2">
-                SERVICE COMMITMENT
-              </span>
-              <h3 className="text-xl font-sans font-medium text-navy tracking-tight">
-                {t.whatWeDo.card3Title}
-              </h3>
-              <p className="mt-3 text-sm text-navy/70 leading-relaxed">
-                {t.whatWeDo.card3Desc}
-              </p>
-            </div>
-            <div className="mt-6 pt-4 border-t border-navy/5 text-xs text-aqua font-semibold">
-              12 Google Reviews • 4.6 Rating
-            </div>
-          </div>
-        </div>
-
-        {/* Circular Seal & Action Callout */}
-        <div className="mt-16 flex flex-col sm:flex-row items-center justify-between gap-8 pt-10 border-t border-navy/10">
-          <div className="flex items-center gap-6">
-            <RanjeetSeal size={96} />
-            <div>
-              <span className="text-sm font-sans font-medium text-navy block">
-                Ranjeet Enterprises 20L Water Jar Supply
-              </span>
-              <span className="text-xs text-navy/60 block">
-                Prompt customer service and clean water jars across Aundh, Baner, and Khadki.
-              </span>
-            </div>
-          </div>
-
-          <PillButton
-            href="/our-story"
-            variant="navy"
-            size="md"
-            showArrow
+          <p
+            className={cn(
+              "text-navy/70 max-w-2xl mx-auto font-normal text-balance",
+              isDevanagari
+                ? "mt-6 sm:mt-7 text-base sm:text-lg leading-[1.75]"
+                : "mt-6 sm:mt-7 text-base sm:text-lg leading-relaxed"
+            )}
           >
-            {t.whatWeDo.learnProcess}
-          </PillButton>
+            {t.whatWeDo.subline}
+          </p>
+        </div>
+
+        {/* 3 Modern Architectural Cards Grid */}
+        <div
+          ref={cardsRef}
+          className="grid grid-cols-1 md:grid-cols-3 gap-7 lg:gap-8"
+        >
+          {features.map((item) => {
+            const Icon = item.icon;
+            return (
+              <div
+                key={item.id}
+                className="group flex flex-col justify-between bg-white rounded-2xl p-6 sm:p-7 border border-navy/10 hover:border-ocean/40 transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1"
+              >
+                <div>
+                  {/* Photo Frame Header */}
+                  <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden mb-6 bg-sky-subtle shadow-inner">
+                    <Image
+                      src={item.image}
+                      alt={item.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 380px"
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    />
+                    <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-navy/85 backdrop-blur-md text-[10px] font-mono tracking-wider uppercase text-white font-semibold">
+                      {item.stage}
+                    </div>
+                  </div>
+
+                  {/* Icon & Category Tag */}
+                  <div className="flex items-center justify-between gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-sky-subtle flex items-center justify-center text-ocean group-hover:bg-ocean group-hover:text-white transition-colors duration-300">
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <span className="text-[11px] font-mono uppercase tracking-wider text-navy/50 font-semibold">
+                      {item.badge}
+                    </span>
+                  </div>
+
+                  {/* Title & Description */}
+                  <h3 className="text-xl font-sans font-medium text-navy tracking-tight mb-2.5 group-hover:text-ocean transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-navy/70 leading-relaxed font-normal mb-5">
+                    {item.description}
+                  </p>
+
+                  {/* Feature Checklist */}
+                  <ul className="space-y-2 pt-2 pb-4 border-t border-navy/5">
+                    {item.points.map((pt, pIdx) => (
+                      <li key={pIdx} className="flex items-start gap-2 text-xs text-navy/80 font-medium">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-aqua shrink-0 mt-0.5" />
+                        <span>{pt}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Footer Meta Badge */}
+                <div className="mt-4 pt-3.5 border-t border-navy/10 flex items-center justify-between text-xs text-aqua font-semibold">
+                  <span>{item.footerTag}</span>
+                  <ArrowUpRight className="w-4 h-4 text-navy/30 group-hover:text-aqua group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Bottom Authority & Quick Order Strip */}
+        <div
+          ref={footerCardRef}
+          className="mt-14 sm:mt-18 p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-navy via-ocean-deep to-navy text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6"
+        >
+          <div className="flex items-center gap-5">
+            <RanjeetSeal size={84} className="shrink-0" />
+            <div>
+              <span className="text-base sm:text-lg font-sans font-medium text-white block">
+                {BRAND_CONFIG.name} — 20L Water Jar Supply
+              </span>
+              <p className="mt-1 text-xs sm:text-sm text-white/70 max-w-xl leading-relaxed">
+                {BRAND_CONFIG.market.address} • {CONTACT_CONFIG.operatingHours}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
+            <Link
+              href={CONTACT_CONFIG.whatsappMessageTemplate()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-aqua hover:bg-white text-navy font-sans text-xs uppercase tracking-wider font-semibold transition-all duration-300 shadow-md hover:shadow-aqua/40"
+            >
+              <MessageSquare className="w-4 h-4" />
+              <span>{t.nav.orderNow}</span>
+            </Link>
+
+            <PillButton
+              href="/our-story"
+              variant="white"
+              size="md"
+              showArrow
+            >
+              {t.whatWeDo.learnProcess}
+            </PillButton>
+          </div>
         </div>
       </div>
     </section>
