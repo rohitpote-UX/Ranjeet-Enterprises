@@ -11,7 +11,7 @@
 **Ranjeet Enterprises** is a dedicated 20-litre drinking water jar supplier in Pune, operating from DP Road, Aundh. The website features an editorial, high-contrast digital experience crafted to present dependable local hydration:
 
 - **Dual-Video Ambient Hero (100vh)**: Seamlessly alternates between full-bleed city architecture and refreshing pure drink pour video tracks with faststart MP4 streaming and crisp poster frames.
-- **Bilingual Interface (English Primary & Marathi)**: Instant zero-reload language toggle (`[EN | मराठी]`) with Devanagari typography.
+- **Trilingual Interface (English Default, Marathi & Hindi)**: Instant zero-reload language toggle (`[EN | मराठी | हिंदी]`) with native Devanagari typography.
 - **Glassmorphic Navigation Bar**: Scroll-direction-aware header, brand wordmark (`Ranjeet | Enterprises`), multi-level interactive dropdowns, and an Awwwards-style **Order Now** pill button with vertical text-swap animation.
 - **Full-Screen Editorial Navigation**: High-contrast drawer with clip-path transition and quick access to all service areas, capabilities, and order desks.
 - **Confirmed Service Areas**: Dedicated 5-panel interactive showcase focusing on verified delivery routes across **Aundh**, **Baner**, and **Khadki** (with contact-to-confirm options for adjacent areas).
@@ -42,8 +42,8 @@
 ### Installation
 ```bash
 # Clone the repository
-git clone https://github.com/rohitpote-UX/Ompaniwaala.git
-cd Ompaniwaala
+git clone https://github.com/rohitpote-UX/Ranjeet-Enterprises.git
+cd Ranjeet-Enterprises
 
 # Install dependencies
 npm install
